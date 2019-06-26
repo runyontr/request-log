@@ -17,6 +17,7 @@ spec:
       containers:
       - name: request-log
         image: runyonsolutions/request-log
+        imagePullPolicy: Always
         ports:
         - containerPort: 8080
 ---

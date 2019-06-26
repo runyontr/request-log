@@ -3,11 +3,20 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"os"
 )
 
-func logRequest(w http.ResponseWriter, r *http.Request) {
+var header = ""
+func init(){
+	header = os.Getenv("HEADER")
+}
 
-	s := fmt.Sprintf("%v: %v %v", r.Method, r.URL.Path, r.Proto)
+func logRequest(w http.ResponseWriter, r *http.Request) {
+	s := ""
+	if header != ""{
+		s = fmt.Sprintf("%v\n", header)
+	}
+	s = fmt.Sprintf("%v: %v %v", r.Method, r.URL.Path, r.Proto)
 	s = fmt.Sprintf("%v\nHost: %v", s, r.Host)
 	s = fmt.Sprintf("%v\nRemoteAddr: %v", s, r.RemoteAddr)
 	s = fmt.Sprintf("%v\nRemoteURI: %v", s, r.RequestURI)
