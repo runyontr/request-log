@@ -9,6 +9,9 @@ import (
 var header = ""
 func init(){
 	header = os.Getenv("HEADER")
+	if header != ""{
+		fmt.Printf("Found default header: %v\n",header)
+	}
 }
 
 func logRequest(w http.ResponseWriter, r *http.Request) {
@@ -16,7 +19,7 @@ func logRequest(w http.ResponseWriter, r *http.Request) {
 	if header != ""{
 		s = fmt.Sprintf("%v\n", header)
 	}
-	s = fmt.Sprintf("%v: %v %v", r.Method, r.URL.Path, r.Proto)
+	s = fmt.Sprintf("%v%v: %v %v",s, r.Method, r.URL.Path, r.Proto)
 	s = fmt.Sprintf("%v\nHost: %v", s, r.Host)
 	s = fmt.Sprintf("%v\nRemoteAddr: %v", s, r.RemoteAddr)
 	s = fmt.Sprintf("%v\nRemoteURI: %v", s, r.RequestURI)
