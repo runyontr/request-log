@@ -11,6 +11,9 @@ spec:
       targetPort: http
       protocol: TCP
       name: http
+      {{- if .Values.service.NodePort }}
+      nodePort: {{ .Values.service.NodePort }}
+      {{- end }}
   selector:
     app.kubernetes.io/name: {{ include "request-log.name" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}

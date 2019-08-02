@@ -7,7 +7,7 @@ replicaCount: 1
 header: "Chart Version 1.0"
 
 image:
-  repository: runyontr/request-log
+  repository: runyonsolutions/request-log
   tag: latest
   pullPolicy: IfNotPresent
 
