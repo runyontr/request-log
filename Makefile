@@ -1,4 +1,4 @@
-TAG?=latest
+TAG?=0.3
 
 DOCKER_PROJECT?=runyonsolutions
 DOCKER_IMAGE_NAME?=request-log

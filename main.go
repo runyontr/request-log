@@ -7,29 +7,34 @@ import (
 )
 
 var header = ""
-func init(){
+var justHeader = false
+
+func init() {
 	header = os.Getenv("HEADER")
-	if header != ""{
-		fmt.Printf("Found default header: %v\n",header)
+	// jh = os.Getenv("JUST_HEADER")
+	justHeader = os.Getenv("JUST_HEADER") != ""
+	if header != "" {
+		fmt.Printf("Found default header: %v\n", header)
 	}
 }
 
 func logRequest(w http.ResponseWriter, r *http.Request) {
 	s := ""
-	if header != ""{
+	if header != "" {
 		s = fmt.Sprintf("%v\n", header)
 	}
-	s = fmt.Sprintf("%v%v: %v %v",s, r.Method, r.URL.Path, r.Proto)
-	s = fmt.Sprintf("%v\nHost: %v", s, r.Host)
-	s = fmt.Sprintf("%v\nRemoteAddr: %v", s, r.RemoteAddr)
-	s = fmt.Sprintf("%v\nRemoteURI: %v", s, r.RequestURI)
-	for k, v := range r.Header {
-		s = fmt.Sprintf("%v\nHeader: %v -> %v", s, k, v)
+	if !justHeader {
+		s = fmt.Sprintf("%v%v: %v %v", s, r.Method, r.URL.Path, r.Proto)
+		s = fmt.Sprintf("%v\nHost: %v", s, r.Host)
+		s = fmt.Sprintf("%v\nRemoteAddr: %v", s, r.RemoteAddr)
+		s = fmt.Sprintf("%v\nRemoteURI: %v", s, r.RequestURI)
+		for k, v := range r.Header {
+			s = fmt.Sprintf("%v\nHeader: %v -> %v", s, k, v)
+		}
+		s = fmt.Sprintf("%v\nHeaders: %v", s, r.Header)
+		s = fmt.Sprintf("%v\nUserAgent: %v", s, r.UserAgent())
+		s = fmt.Sprintf("%v\nTransfer Encoding: %v", s, r.TransferEncoding)
 	}
-	s = fmt.Sprintf("%v\nHeaders: %v", s, r.Header)
-	s = fmt.Sprintf("%v\nUserAgent: %v", s, r.UserAgent())
-	s = fmt.Sprintf("%v\nTransfer Encoding: %v", s, r.TransferEncoding)
-
 	// b, _ := httputil.DumpRequest(r, true)
 
 	fmt.Println("------------------------\n" + string(s) + "\n---------------------")
